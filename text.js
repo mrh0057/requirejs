@@ -231,10 +231,18 @@
 
                 //Load the text. Use XHR if possible and in a browser.
                 if (!hasLocation || useXhr(url, defaultProtocol, defaultHostName, defaultPort)) {
-                  
-                    if (config.textDir) {
-                        url = config.textDir + url;
-                    }
+
+                  if (config.textDir) {
+                    url = config.textDir + url;
+                  }
+
+                  // Check to see if the appDir is set and if the url starts with a / prepend the appDir
+                  // to the url.
+                  if (config.appDir  && url.length > 0) {
+                      if (url[0] == '/') {
+                          url = config.appDir + url;
+                      }
+                  }
 
                     text.get(url, function (content) {
                         text.finishLoad(name, parsed.strip, content, onLoad, config);
